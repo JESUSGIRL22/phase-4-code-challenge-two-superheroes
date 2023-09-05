@@ -12,4 +12,18 @@ class HeroesController < ApplicationController
       render json: { error: 'Hero not found' }, status: :not_found
     end
   end
+
+  def create
+    hero = Hero.new(hero_params)
+    if hero.save
+      render json: hero
+    else
+      render json: { errors: hero.errors.full_messages }, status: :unprocessable_entity
+    end
+  end
+
+  # Helper method for rendering a not-found response
+  def render_not_found(message)
+    render json: { error: message }, status: :not_found
+  end
 end
